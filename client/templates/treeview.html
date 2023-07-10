@@ -1,0 +1,93 @@
+<head>
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="{% url 'default' %}">ERM</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarColor03">
+            <ul class="navbar-nav me-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'default' %}">Home
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="{% url 'treeview' %}">Treeview</a>
+                <span class="visually-hidden">(current)</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <div class="tree">
+        <ul>
+            {% for i in executives %}
+            <li class="executive">
+                <a>  
+                    <h5>{{ i.Name }} {{ i.Surname }}</h5>
+                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                        <label class="btn btn-outline-danger" for="btnradio1">R{{ i.Salary }}.00</label>
+                        <label class="btn btn-outline-danger" for="btnradio2">#{{ i.Employee_Number}}</label>
+                        <label class="btn btn-outline-danger" for="btnradio3">{{ i.Role_Description }}</label>
+                      </div>                
+                </a>
+                <ul>
+                    {% for j in managers %}
+                        {% if j.Reporting_person == i.Employee_Number %}
+                        <li class="manager">
+                            <a>  
+                                <h5>{{ j.Name }} {{ j.Surname }}</h5>
+                                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                    <label class="btn btn-outline-warning" for="btnradio1">R{{ j.Salary }}.00</label>
+                                    <label class="btn btn-outline-warning" for="btnradio2">#{{ j.Employee_Number}}</label>
+                                    <label class="btn btn-outline-warning" for="btnradio3">{{ j.Role_Description }}</label>
+                                  </div>                
+                            </a>
+                            <ul>
+                            {% for k in employees %}
+                                {% if k.Reporting_person == j.Employee_Number %}    
+                                <li class="employee">
+                                    <a>  
+                                        <h5>{{ k.Name }} {{ k.Surname }}</h5>
+                                        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                            <label class="btn btn-outline-success" for="btnradio1">R{{ k.Salary }}.00</label>
+                                            <label class="btn btn-outline-success" for="btnradio2">#{{ k.Employee_Number}}</label>
+                                            <label class="btn btn-outline-success" for="btnradio3">{{ k.Role_Description }}</label>
+                                          </div>                
+                                    </a>
+                                    <ul>
+                                        {% for l in trainees %}
+                                            {% if l.Reporting_person == k.Employee_Number %}
+                                            <li class="trainee">
+                                                <a>  
+                                                    <h5>{{ l.Name }} {{ l.Surname }}</h5>
+                                                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                                        <label class="btn btn-outline-primary" for="btnradio1">R{{ l.Salary }}.00</label>
+                                                        <label class="btn btn-outline-primary" for="btnradio2">#{{ l.Employee_Number}}</label>
+                                                        <label class="btn btn-outline-primary" for="btnradio3">{{ l.Role_Description }}</label>
+                                                      </div>                
+                                                </a>
+                                            </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                                {% endif %}
+                            {% endfor %}
+                            </ul>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
